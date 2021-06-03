@@ -26,4 +26,12 @@ is Python's de-facto standard GUI (Graphical User Interface) package. It is a th
 ```
 
 
-![GitHub Logo](images/code1.png)
+![Images](images/login.png)
+![Images](images/register.png)
+![Images](images/suggestions.png)
+![Images](images/code1.png)
+![Images](images/code2.png)
+![Images](images/code3.png)
+![Images](images/code4.png)
+![Images](images/code5.png)
+
