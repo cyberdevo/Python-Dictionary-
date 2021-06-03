@@ -11,10 +11,6 @@ from difflib import get_close_matches
 data = json.load(open("data.json"))
 word = ""
 
-# import app.py
-# import mysql.connector as c
-# import pymysql
-
 class Login:
 
    def __init__(self, root):
@@ -23,6 +19,9 @@ class Login:
       self.root.title("Login and registration system for Apps")
       self.root.geometry("1366x700+0+0")
       self.root.resizable(False, False)
+      self.get_voice_word = ""
+      # print(self.get_voice_word)
+      # print(type(self.get_voice_word))
       self.loginform()
 
    def loginform(self):
@@ -30,9 +29,7 @@ class Login:
       Frame_login = Frame(self.root, )
       Frame_login.place(x=0, y=0, height=700, width=1366)
 
-      # bg = PhotoImage(file = "C:\\Users\\Haier\\Documents\\Downloads\\1.png")
-      # image = Image.open("C:\\Users\\Haier\\Desktop\\Python Project\\12.png")
-      self.img = ImageTk.PhotoImage(Image.open("C:\\Users\\Haier\\Desktop\\Python Project\\123.png"))
+      self.img = ImageTk.PhotoImage(Image.open("C:\\Users\\Haier\\Desktop\\Bcsm-f19-383 (Python Project)\\123.png"))
       img=Label(Frame_login,image=self.img).place(x=0,y=0,width=1366,height=700)
       frame_input = Frame(self.root, bg='white')
       frame_input.place(x=0, y=0, height=800, width=550)
@@ -64,15 +61,12 @@ class Login:
                            bg='white', show='*' , bd = 1)
 
       # passw_entry=tk.Entry(root, textvariable = passw_var, font = ('calibre',10,'normal'), show = '*')
-
       self.password.place(x=100, y=350, width=270, height=35)
-
       btn1 = Button(frame_input, text="forgot password?", cursor='hand2',
 
                   font=('calibri', 10), bg='white', fg='black', bd=0)
 
       btn1.place(x=180, y=400)
-
       btn2 = Button(frame_input, text="Login", command=self.login, cursor="hand2",
 
                   font=("calibre", 15), fg="white", bg="orangered",
@@ -134,7 +128,7 @@ class Login:
 
       Frame_login1.place(x=0, y=0, height=700, width=1366)
 
-      self.img_register = ImageTk.PhotoImage(Image.open("C:\\Users\\Haier\\Desktop\\Python Project\\333.jpg"))
+      self.img_register = ImageTk.PhotoImage(Image.open("C:\\Users\\Haier\\Desktop\\Bcsm-f19-383 (Python Project)\\333.jpg"))
       img2=Label(Frame_login1,image=self.img_register).place(x=490,y=0,width=1200,height=700)
       
       frame_input2 = Frame(self.root, bg='white')
@@ -267,7 +261,7 @@ class Login:
       Frame_login = Frame(self.root, bg='white')
       Frame_login.place(x=0, y=0, height=700, width=1366 )
 
-      self.bgAppImg = ImageTk.PhotoImage(Image.open("C:\\Users\\Haier\\Desktop\\Python Project\\des.png"))
+      self.bgAppImg = ImageTk.PhotoImage(Image.open("C:\\Users\\Haier\\Desktop\\Bcsm-f19-383 (Python Project)\\des.png"))
       bgImg=Label(Frame_login,image=self.bgAppImg , bg='white').place(x=0,y=0,width=1362,height=700)
 
 
@@ -336,8 +330,6 @@ class Login:
                         bg='white' , bd =1)
 
       self.get_txt.place(x=40, y=45, width=270, height=35)
-      # d1 = self.get_txt.get()
-      # print(d1)
       sub_btn = Button(ListingFrame, text='Submit', command=self.submit,
 
                font=("calibre", 12), fg="white", bg="orangered",
@@ -354,7 +346,6 @@ class Login:
 
       if d1 == 1:
          print("1st Condition: 1")
-         # word = input("Enter word for finding its meaning....: ")
          L1 = Label(self.root, text="Enter Word",
          font=("calibre", 10, "bold"), fg='orangered', bg="white")
          L1.place(x=500, y=500)
@@ -363,61 +354,84 @@ class Login:
                               bg='white' , bd = 1)
 
          self.get_word.place(x=510, y=520, width=270, height=35)
-         sub_btn = Button(self.root, text='Submit', command=self.submit_word,
+         sub_btn_1 = Button(self.root, text='Submit', command=self.submit_word,
+
+               font=("calibre", 12), fg="white", bg="orangered",
+
+               bd=0, width=10, height=1)
+         
+         sub_btn_1.place(x=600, y=570)
+         
+
+      elif d1 == 2:
+         sub_btn = Button(self.root, text='Speak Now', command=self.speakWord,
 
                font=("calibre", 12), fg="white", bg="orangered",
 
                bd=0, width=10, height=1)
          
          sub_btn.place(x=600, y=570)
+       
+   def speakWord(self):
+      subword = ""
+      r2 = sr.Recognizer()
+      # r3 = sr.Recognizer()
+      with sr.Microphone() as source:
+            messagebox.showinfo("showinfo", "Speak Now.......") 
+            print('Speak Now.......')
 
-         
+            with sr.Microphone() as source:
+               r2.adjust_for_ambient_noise(source)
+               audio = r2.listen(source)
+               # audio = r2.listen(source)
+               try:
+                  
+                  word = r2.recognize_google(audio)
+                  print(word)
+                  subword = word
+                  print('Your query')
+                  messagebox.showinfo("showinfo", "Your query .....: "+ word ) 
+                  print(word)
+               except sr.UnknownValueError:
+                  print('error')
+               except sr.RequestError as e:
+                  print('failed'.format(e))
 
-      elif d1 == 2:
-         r2 = sr.Recognizer()
-         r3 = sr.Recognizer()
 
-         with sr.Microphone() as  source:
+      sub_btn = Button(self.root, text='Submit ', command=self.submit_word,
 
-               print('Speak Now.......')
+            font=("calibre", 12), fg="white", bg="orangered",
 
-               with sr.Microphone() as source:
+            bd=0, width=10, height=1)
+      
+      sub_btn.place(x=600, y=570)
 
-                  audio = r2.listen(source)
+      self.get_voice_word = subword
 
-                  try:
-                     word = r2.recognize_google(audio)
-                     print('Your query')
-                     print(word)
-                  except sr.UnknownValueError:
-                     print('error')
-                  except sr.RequestError as e:
-                     print('failed'.format(e))
-
-                  output = self.translate(word)
-                  if type(output) == list:
-                     for item in output:
-                           print(item)
-                  else:
-                     print(output)
-
-                  print("Stay Connected for more Information")
-   
    def submit_word(self):
+
       ListingFrame1 = Frame(self.root, bg="white", bd=10,
                         highlightcolor="lightgrey", highlightthickness=10)
       ListingFrame1.place(x=850, y=350, height=350, width=400)
-      d2 = self.get_word.get()
-      print(d2)
+      
+      if bool(self.get_voice_word) :
+         d2 =  self.get_voice_word
+         messagebox.showinfo("showwarning", "Your Word is " + d2)
+         print(d2 + "Hlllo voidce")
+      elif bool(self.get_word.get()):
+         d2 = self.get_word.get() 
+         messagebox.showinfo("showwarning", "Your Word is " + d2)
+         print(d2)
+      elif self.get_word.get() == False and self.get_voice_word == False:
+         messagebox.showwarning("showwarning", "Word is not properly getted try Again  ")
+          
       output = self.translate(d2)
       if type(output) == list:
             for item in output:
                L4 = Label(ListingFrame1, text="Definition",
          font=("calibre", 10, "bold"), fg='orangered', bg="white")
                L4.place(x=10, y=10)
-         #       L3 = Label(ListingFrame1, text=item,
-         # font=("calibre", 10, "bold"), fg='orangered', bg="black")
-         #       L3.place(x=50, y=60)
+         
                textArea  = Text(ListingFrame1, height=15, width=45 , 
                                  font=("calibre", 10, "bold"), fg='orangered', bg="white")
                textArea.insert(INSERT,item)
@@ -431,7 +445,6 @@ class Login:
          L3 = Label(ListingFrame1, text=output,
           font=("calibre", 10, "bold"), fg='orangered', bg="white")
          L3.place(x=50, y=60)
-      
       
       self.regclear()
 
@@ -480,12 +493,12 @@ class Login:
       self.entry3.delete(0, END)
       self.entry4.delete(0, END)
       self.get_word.delete(0, END)
-
+      self.get_voice_word.delete(0, END)
+      
    def loginclear(self):
 
       self.email_txt.delete(0, END)
       self.password.delete(0, END)
-
 
 root = Tk()
 ob = Login(root)
